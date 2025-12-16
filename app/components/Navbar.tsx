@@ -62,7 +62,7 @@ export function Navbar() {
               ))}
             </div>
             <button 
-              onClick={openModal}
+              onClick={() => openModal('contact')}
               className="hidden rounded-[30px] bg-(--color-blue) px-[18px] py-[18px] font-body text-[16px] font-semibold text-(--color-white) transition-opacity hover:opacity-90 md:flex"
             >
               Get In Touch
