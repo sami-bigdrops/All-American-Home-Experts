@@ -39,7 +39,7 @@ export function Hero() {
               </div>
               <div className="flex w-full flex-col items-center gap-3 sm:flex-row sm:gap-4 sm:w-auto lg:items-start">
                 <button 
-                  onClick={openModal}
+                  onClick={() => openModal('contact')}
                   className="w-full rounded-[30px] bg-(--color-blue) px-6 py-3 font-body text-[14px] font-semibold text-(--color-white) transition-opacity hover:opacity-90 sm:w-auto sm:px-7 sm:py-3.5 md:px-8 md:py-4 md:text-[15px] lg:px-[18px] lg:py-[18px] lg:text-[16px]"
                 >
                   Schedule Consultation
