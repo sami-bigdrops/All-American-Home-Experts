@@ -1,4 +1,10 @@
+'use client';
+
+import { useModal } from '../contexts/ModalContext';
+
 export default function TermsConditions() {
+  const { openModal } = useModal();
+  
   return (
     <section className="bg-(--color-white) w-full">
       <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-12 md:px-12 md:py-16 lg:px-16 lg:py-20 xl:px-20 xl:py-24">
@@ -83,7 +89,7 @@ export default function TermsConditions() {
               Contacting us
             </h2>
             <p className="font-body text-[15px] leading-[26px] text-(--color-black-grey) sm:text-[16px] sm:leading-[28px]">
-              In the event that you have any inquiries in regards to our Terms and Conditions or your dealings with hometurnaround.info, it would be ideal if you contact through our Contact Form, or with the accompanying data: <a href="mailto:contact@allamericanhomexperts" className="text-(--color-blue) hover:underline">contact@allamericanhomexperts</a>
+              In the event that you have any inquiries in regards to our Terms and Conditions or your dealings with hometurnaround.info, it would be ideal if you contact through our <button onClick={() => openModal('contact')} className="text-(--color-blue) underline">Contact Form</button>.
             </p>
           </div>
         </div>

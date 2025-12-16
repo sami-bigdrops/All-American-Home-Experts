@@ -1,3 +1,5 @@
+'use client';
+
 import Image from "next/image";
 import { Form } from "./Form";
 
@@ -14,20 +16,6 @@ export function Contact() {
                             <p className="font-body text-[14px] leading-[22px] text-(--color-black-grey) sm:text-[15px] sm:leading-[24px] md:text-[16px] md:leading-[26px]">
                                 Reach Out For a Free Consultation
                             </p>
-                        </div>
-                        
-                        <div className="flex items-center gap-2.5 sm:gap-3">
-                            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-(--color-blue) sm:h-10 sm:w-10">
-                                <svg className="h-4 w-4 text-(--color-white) sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                </svg>
-                            </div>
-                            <a 
-                                href="mailto:contact@allamericanhomeexperts.com" 
-                                className="font-body text-[14px] font-medium text-(--color-black-grey) hover:text-(--color-blue) transition-colors sm:text-[15px] md:text-[16px]"
-                            >
-                                contact@allamericanhomeexperts.com
-                            </a>
                         </div>
 
                         <div className="relative h-[250px] w-full overflow-hidden rounded-lg sm:h-[300px] md:h-[350px] lg:h-[380px]">

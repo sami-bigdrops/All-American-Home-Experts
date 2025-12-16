@@ -1,8 +1,10 @@
 'use client';
 
 import Link from 'next/link';
+import { useModal } from '../contexts/ModalContext';
 
 export function Footer() {
+    const { openModal } = useModal();
     const quickLinks = [
         { label: 'Home', href: '/' },
         { label: 'About Us', href: '#about' },
@@ -88,8 +90,33 @@ export function Footer() {
                         </h4>
                         <div className="flex flex-col gap-3 sm:gap-4">
                             {legalLinks.map((link) => {
-                                // Use Next.js Link for routes, regular anchor for hash links
-                                if (link.href.startsWith('#') || link.href === '/') {
+                                if (link.label === 'Subscribe') {
+                                    return (
+                                        <button
+                                            key={link.label}
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                openModal('subscribe');
+                                            }}
+                                            className="text-left font-body text-[14px] text-(--color-white) opacity-90 transition-opacity hover:opacity-100 sm:text-[15px] cursor-pointer"
+                                        >
+                                            {link.label}
+                                        </button>
+                                    );
+                                } else if (link.label === 'Unsubscribe') {
+                                    return (
+                                        <button
+                                            key={link.label}
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                openModal('unsubscribe');
+                                            }}
+                                            className="text-left font-body text-[14px] text-(--color-white) opacity-90 transition-opacity hover:opacity-100 sm:text-[15px] cursor-pointer"
+                                        >
+                                            {link.label}
+                                        </button>
+                                    );
+                                } else if (link.href.startsWith('#') || link.href === '/') {
                                     return (
                                         <a
                                             key={link.label}

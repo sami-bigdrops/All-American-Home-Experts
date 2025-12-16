@@ -2,10 +2,11 @@
 
 import { useEffect } from 'react';
 import { Form } from './Form';
+import { SubscribeUnsubscribeForm } from './SubscribeUnsubscribeForm';
 import { useModal } from '../contexts/ModalContext';
 
 export function Modal() {
-    const { isModalOpen, closeModal } = useModal();
+    const { isModalOpen, modalType, closeModal } = useModal();
     useEffect(() => {
         if (isModalOpen) {
             document.body.style.overflow = 'hidden';
@@ -19,6 +20,17 @@ export function Modal() {
     }, [isModalOpen]);
 
     if (!isModalOpen) return null;
+
+    const getTitle = () => {
+        switch (modalType) {
+            case 'subscribe':
+                return 'Subscribe to Our Newsletter';
+            case 'unsubscribe':
+                return 'Unsubscribe from Our Newsletter';
+            default:
+                return 'Get In Touch';
+        }
+    };
 
     return (
         <div
@@ -50,9 +62,16 @@ export function Modal() {
                 </button>
                 <div className="p-6 sm:p-8">
                     <h2 className="mb-6 font-title text-[24px] font-extrabold text-(--color-dark-blue) sm:text-[28px] md:text-[32px]">
-                        Get In Touch
+                        {getTitle()}
                     </h2>
-                    <Form onSuccess={closeModal} />
+                    {modalType === 'contact' ? (
+                        <Form onSuccess={closeModal} />
+                    ) : (
+                        <SubscribeUnsubscribeForm 
+                            type={modalType} 
+                            onSuccess={closeModal} 
+                        />
+                    )}
                 </div>
             </div>
         </div>

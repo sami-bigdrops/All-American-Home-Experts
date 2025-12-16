@@ -7,16 +7,19 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
     
-    const { fullName, email, phone, message } = body
+    const { email } = body
 
-    if (!fullName || !email || !phone || !message) {
-      const missingFields = [];
-      if (!fullName) missingFields.push('fullName');
-      if (!email) missingFields.push('email');
-      if (!phone) missingFields.push('phone');
-      if (!message) missingFields.push('message');
+    if (!email) {
       return NextResponse.json(
-        { error: 'All required fields are missing', missingFields },
+        { error: 'Email is required' },
+        { status: 400 }
+      )
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return NextResponse.json(
+        { error: 'Invalid email address' },
         { status: 400 }
       )
     }
@@ -59,41 +62,42 @@ export async function POST(request: NextRequest) {
 
     const headerCheck = await sheets.spreadsheets.values.get({
       spreadsheetId,
-      range: `${sheetName}!A1:E1`,
+      range: `${sheetName}!G1:H1`,
     })
 
-    if (!headerCheck.data.values || headerCheck.data.values.length === 0) {
+    if (!headerCheck.data.values || headerCheck.data.values.length === 0 || !headerCheck.data.values[0] || headerCheck.data.values[0].length < 2) {
       await sheets.spreadsheets.values.update({
         spreadsheetId,
-        range: `${sheetName}!A1:E1`,
+        range: `${sheetName}!G1:H1`,
         valueInputOption: 'USER_ENTERED',
         requestBody: {
-          values: [['Timestamp', 'Full Name', 'Email', 'Phone', 'Message']],
+          values: [['Timestamp', 'Subscribe']],
         },
       })
     }
 
     await sheets.spreadsheets.values.append({
       spreadsheetId,
-      range: `${sheetName}!A:E`,
+      range: `${sheetName}!G:H`,
       valueInputOption: 'USER_ENTERED',
       requestBody: {
-        values: [[timestamp, fullName.trim(), email.trim(), phone.trim(), message.trim()]],
+        values: [[timestamp, email.trim()]],
       },
     })
 
     return NextResponse.json(
       { 
         success: true, 
-        message: 'Form submitted successfully'
+        message: 'Successfully subscribed to our newsletter!'
       },
       { status: 200 }
     )
   } catch (error) {
-    console.error('Error submitting form:', error)
+    console.error('Error subscribing:', error)
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
     )
   }
 }
+
