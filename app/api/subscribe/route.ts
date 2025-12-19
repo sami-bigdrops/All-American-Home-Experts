@@ -34,17 +34,31 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const credentialsPath = path.join(process.cwd(), 'credentials', 'service-account.json')
+    let credentials;
     
-    if (!fs.existsSync(credentialsPath)) {
-      console.error('Credentials file not found at:', credentialsPath)
-      return NextResponse.json(
-        { error: 'Server configuration error' },
-        { status: 500 }
-      )
-    }
+    if (process.env.GOOGLE_SHEETS_CREDENTIALS) {
+      try {
+        credentials = JSON.parse(process.env.GOOGLE_SHEETS_CREDENTIALS)
+      } catch (error) {
+        console.error('Error parsing GOOGLE_SHEETS_CREDENTIALS:', error)
+        return NextResponse.json(
+          { error: 'Server configuration error' },
+          { status: 500 }
+        )
+      }
+    } else {
+      const credentialsPath = path.join(process.cwd(), 'credentials', 'service-account.json')
+      
+      if (!fs.existsSync(credentialsPath)) {
+        console.error('Credentials file not found at:', credentialsPath)
+        return NextResponse.json(
+          { error: 'Server configuration error' },
+          { status: 500 }
+        )
+      }
 
-    const credentials = JSON.parse(fs.readFileSync(credentialsPath, 'utf8'))
+      credentials = JSON.parse(fs.readFileSync(credentialsPath, 'utf8'))
+    }
 
     const auth = new google.auth.GoogleAuth({
       credentials,
